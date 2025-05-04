@@ -18,12 +18,22 @@ const __VLS_1 = __VLS_asFunctionalComponent(__VLS_0, new __VLS_0({
     arrows: true,
     slidesToShow: (10),
     slidesToScroll: (1),
+    responsive: ([
+        { breakpoint: 1024, settings: { slidesToShow: 4, slidesToScroll: 1 } },
+        { breakpoint: 768, settings: { slidesToShow: 3, slidesToScroll: 1 } },
+        { breakpoint: 480, settings: { slidesToShow: 2, slidesToScroll: 1 } }
+    ]),
 }));
 const __VLS_2 = __VLS_1({
     dots: (false),
     arrows: true,
     slidesToShow: (10),
     slidesToScroll: (1),
+    responsive: ([
+        { breakpoint: 1024, settings: { slidesToShow: 4, slidesToScroll: 1 } },
+        { breakpoint: 768, settings: { slidesToShow: 3, slidesToScroll: 1 } },
+        { breakpoint: 480, settings: { slidesToShow: 2, slidesToScroll: 1 } }
+    ]),
 }, ...__VLS_functionalComponentArgsRest(__VLS_1));
 var __VLS_4 = {};
 __VLS_3.slots.default;

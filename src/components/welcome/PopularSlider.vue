@@ -1,5 +1,15 @@
 <template>
-  <a-carousel :dots="false" arrows :slides-to-show="10" :slides-to-scroll="1">
+  <a-carousel
+    :dots="false"
+    arrows
+    :slides-to-show="10"
+    :slides-to-scroll="1"
+    :responsive="[
+      { breakpoint: 1024, settings: { slidesToShow: 4, slidesToScroll: 1 } },
+      { breakpoint: 768, settings: { slidesToShow: 3, slidesToScroll: 1 } },
+      { breakpoint: 480, settings: { slidesToShow: 2, slidesToScroll: 1 } }
+    ]"
+  >
     <template #prevArrow>
       <div class="custom-slick-arrow" style="left: -30px; z-index: 1">
         <left-circle-outlined />
