@@ -11,6 +11,10 @@ const topViews = ref(null);
 const lastUpdates = ref(null);
 const newEpisodes = ref(null);
 const sliderItems = ref(null);
+const isLoadingSlider = ref(true);
+const isLoadingContent = ref(true);
+const sliderSkeletonCount = 6;
+const cardSkeletonCount = 10;
 const currentItems = computed(() => itemsMap[selectedContentType.value]?.value ?? []);
 const fetchActions = {
     [ContentType.Popular]: async () => {
@@ -28,11 +32,15 @@ const fetchActions = {
 };
 const onContentTypeSelected = async (type) => {
     selectedContentType.value = type;
+    isLoadingContent.value = true;
     await fetchActions[type]();
+    isLoadingContent.value = false;
 };
 const fetchContentPage = async () => {
-    const response = await fetchList();
-    sliderItems.value = response.data.popular;
+    isLoadingSlider.value = true;
+    const { data } = await fetchList();
+    sliderItems.value = data.popular;
+    isLoadingSlider.value = false;
 };
 onMounted(async () => {
     await onContentTypeSelected(selectedContentType.value);
@@ -57,14 +65,30 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.d
     ...{ class: "flex flex-col gap-5" },
 });
 __VLS_asFunctionalDirective(__VLS_directives.vAutoAnimate)(null, { ...__VLS_directiveBindingRestFields, }, null, null);
-/** @type {[typeof TheSlider, ]} */ ;
-// @ts-ignore
-const __VLS_4 = __VLS_asFunctionalComponent(TheSlider, new TheSlider({
-    sliders: (__VLS_ctx.sliderItems),
-}));
-const __VLS_5 = __VLS_4({
-    sliders: (__VLS_ctx.sliderItems),
-}, ...__VLS_functionalComponentArgsRest(__VLS_4));
+__VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+    ...{ class: "relative" },
+});
+if (__VLS_ctx.isLoadingSlider) {
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+        ...{ class: "flex gap-4 overflow-x-auto py-4" },
+    });
+    for (const [n] of __VLS_getVForSourceType((__VLS_ctx.sliderSkeletonCount))) {
+        __VLS_asFunctionalElement(__VLS_intrinsicElements.div)({
+            key: (n),
+            ...{ class: "w-full h-80 bg-gray-200 rounded-2xl animate-pulse flex-shrink-0" },
+        });
+    }
+}
+else {
+    /** @type {[typeof TheSlider, ]} */ ;
+    // @ts-ignore
+    const __VLS_4 = __VLS_asFunctionalComponent(TheSlider, new TheSlider({
+        sliders: (__VLS_ctx.sliderItems),
+    }));
+    const __VLS_5 = __VLS_4({
+        sliders: (__VLS_ctx.sliderItems),
+    }, ...__VLS_functionalComponentArgsRest(__VLS_4));
+}
 __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
     ...{ class: "my-10" },
 });
@@ -75,14 +99,30 @@ const __VLS_8 = __VLS_asFunctionalComponent(__VLS_7, new __VLS_7({}));
 const __VLS_9 = __VLS_8({}, ...__VLS_functionalComponentArgsRest(__VLS_8));
 __VLS_10.slots.default;
 var __VLS_10;
-/** @type {[typeof PopularSlider, ]} */ ;
-// @ts-ignore
-const __VLS_11 = __VLS_asFunctionalComponent(PopularSlider, new PopularSlider({
-    sliders: (__VLS_ctx.sliderItems),
-}));
-const __VLS_12 = __VLS_11({
-    sliders: (__VLS_ctx.sliderItems),
-}, ...__VLS_functionalComponentArgsRest(__VLS_11));
+__VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+    ...{ class: "relative" },
+});
+if (__VLS_ctx.isLoadingSlider) {
+    __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({
+        ...{ class: "flex gap-4 overflow-x-auto py-4" },
+    });
+    for (const [n] of __VLS_getVForSourceType((__VLS_ctx.sliderSkeletonCount))) {
+        __VLS_asFunctionalElement(__VLS_intrinsicElements.div)({
+            key: (n),
+            ...{ class: "min-w-[18rem] h-80 bg-gray-200 rounded-2xl animate-pulse flex-shrink-0" },
+        });
+    }
+}
+else {
+    /** @type {[typeof PopularSlider, ]} */ ;
+    // @ts-ignore
+    const __VLS_11 = __VLS_asFunctionalComponent(PopularSlider, new PopularSlider({
+        sliders: (__VLS_ctx.sliderItems),
+    }));
+    const __VLS_12 = __VLS_11({
+        sliders: (__VLS_ctx.sliderItems),
+    }, ...__VLS_functionalComponentArgsRest(__VLS_11));
+}
 const __VLS_14 = {}.ATypographyTitle;
 /** @type {[typeof __VLS_components.ATypographyTitle, typeof __VLS_components.aTypographyTitle, typeof __VLS_components.ATypographyTitle, typeof __VLS_components.aTypographyTitle, ]} */ ;
 // @ts-ignore
@@ -113,23 +153,55 @@ __VLS_asFunctionalElement(__VLS_intrinsicElements.div, __VLS_intrinsicElements.d
     ...{ class: "grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 items-stretch" },
 });
 __VLS_asFunctionalDirective(__VLS_directives.vAutoAnimate)(null, { ...__VLS_directiveBindingRestFields, }, null, null);
-for (const [item] of __VLS_getVForSourceType((__VLS_ctx.currentItems))) {
-    /** @type {[typeof AnimeCard, ]} */ ;
-    // @ts-ignore
-    const __VLS_25 = __VLS_asFunctionalComponent(AnimeCard, new AnimeCard({
-        key: (item.id),
-        item: (item),
-    }));
-    const __VLS_26 = __VLS_25({
-        key: (item.id),
-        item: (item),
-    }, ...__VLS_functionalComponentArgsRest(__VLS_25));
+if (__VLS_ctx.isLoadingContent) {
+    for (const [n] of __VLS_getVForSourceType((__VLS_ctx.cardSkeletonCount))) {
+        __VLS_asFunctionalElement(__VLS_intrinsicElements.div)({
+            key: (n),
+            ...{ class: "h-80 bg-gray-200 rounded-2xl overflow-hidden animate-pulse" },
+        });
+    }
+}
+else {
+    for (const [item] of __VLS_getVForSourceType((__VLS_ctx.currentItems))) {
+        /** @type {[typeof AnimeCard, ]} */ ;
+        // @ts-ignore
+        const __VLS_25 = __VLS_asFunctionalComponent(AnimeCard, new AnimeCard({
+            key: (item.id),
+            item: (item),
+        }));
+        const __VLS_26 = __VLS_25({
+            key: (item.id),
+            item: (item),
+        }, ...__VLS_functionalComponentArgsRest(__VLS_25));
+    }
 }
 var __VLS_2;
 /** @type {__VLS_StyleScopedClasses['flex']} */ ;
 /** @type {__VLS_StyleScopedClasses['flex-col']} */ ;
 /** @type {__VLS_StyleScopedClasses['gap-5']} */ ;
+/** @type {__VLS_StyleScopedClasses['relative']} */ ;
+/** @type {__VLS_StyleScopedClasses['flex']} */ ;
+/** @type {__VLS_StyleScopedClasses['gap-4']} */ ;
+/** @type {__VLS_StyleScopedClasses['overflow-x-auto']} */ ;
+/** @type {__VLS_StyleScopedClasses['py-4']} */ ;
+/** @type {__VLS_StyleScopedClasses['w-full']} */ ;
+/** @type {__VLS_StyleScopedClasses['h-80']} */ ;
+/** @type {__VLS_StyleScopedClasses['bg-gray-200']} */ ;
+/** @type {__VLS_StyleScopedClasses['rounded-2xl']} */ ;
+/** @type {__VLS_StyleScopedClasses['animate-pulse']} */ ;
+/** @type {__VLS_StyleScopedClasses['flex-shrink-0']} */ ;
 /** @type {__VLS_StyleScopedClasses['my-10']} */ ;
+/** @type {__VLS_StyleScopedClasses['relative']} */ ;
+/** @type {__VLS_StyleScopedClasses['flex']} */ ;
+/** @type {__VLS_StyleScopedClasses['gap-4']} */ ;
+/** @type {__VLS_StyleScopedClasses['overflow-x-auto']} */ ;
+/** @type {__VLS_StyleScopedClasses['py-4']} */ ;
+/** @type {__VLS_StyleScopedClasses['min-w-[18rem]']} */ ;
+/** @type {__VLS_StyleScopedClasses['h-80']} */ ;
+/** @type {__VLS_StyleScopedClasses['bg-gray-200']} */ ;
+/** @type {__VLS_StyleScopedClasses['rounded-2xl']} */ ;
+/** @type {__VLS_StyleScopedClasses['animate-pulse']} */ ;
+/** @type {__VLS_StyleScopedClasses['flex-shrink-0']} */ ;
 /** @type {__VLS_StyleScopedClasses['flex']} */ ;
 /** @type {__VLS_StyleScopedClasses['w-full']} */ ;
 /** @type {__VLS_StyleScopedClasses['items-center']} */ ;
@@ -142,6 +214,11 @@ var __VLS_2;
 /** @type {__VLS_StyleScopedClasses['md:grid-cols-3']} */ ;
 /** @type {__VLS_StyleScopedClasses['lg:grid-cols-5']} */ ;
 /** @type {__VLS_StyleScopedClasses['items-stretch']} */ ;
+/** @type {__VLS_StyleScopedClasses['h-80']} */ ;
+/** @type {__VLS_StyleScopedClasses['bg-gray-200']} */ ;
+/** @type {__VLS_StyleScopedClasses['rounded-2xl']} */ ;
+/** @type {__VLS_StyleScopedClasses['overflow-hidden']} */ ;
+/** @type {__VLS_StyleScopedClasses['animate-pulse']} */ ;
 var __VLS_dollars;
 const __VLS_self = (await import('vue')).defineComponent({
     setup() {
@@ -152,6 +229,10 @@ const __VLS_self = (await import('vue')).defineComponent({
             TheSlider: TheSlider,
             PopularSlider: PopularSlider,
             sliderItems: sliderItems,
+            isLoadingSlider: isLoadingSlider,
+            isLoadingContent: isLoadingContent,
+            sliderSkeletonCount: sliderSkeletonCount,
+            cardSkeletonCount: cardSkeletonCount,
             currentItems: currentItems,
             onContentTypeSelected: onContentTypeSelected,
         };

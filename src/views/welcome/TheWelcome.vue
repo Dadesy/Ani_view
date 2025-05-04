@@ -74,7 +74,7 @@
     fetchNewEpisodes,
     fetchList
   } from '@/views/welcome/services';
-  import { LastUpdateItem } from '@/views/welcome/services/latest-updates';
+  import { LastUpdateItem } from '@/views/welcome/services/lastest-updates';
   import { TopViewItem } from '@/views/welcome/services/top-views';
   import { AnimeItem } from '@/views/welcome/services/list.js';
 
