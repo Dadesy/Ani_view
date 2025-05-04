@@ -13,7 +13,6 @@
           :ageLabel="item.ageRestriction.label"
           :typeLabel="item.type.label"
           :ratingText="`${item.rating.averageFormated} (${item.rating.votesFormated} голосов)`"
-          :viewsPerDay="item.views_day ?? ''"
           :statusLabel="item.status.label"
         />
       </div>

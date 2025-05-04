@@ -1,4 +1,4 @@
-import axios from '@/utils/axios';
+import axios from '@/utils/axios.js';
 import { animeRequestOptions } from '@/views/anime/config.js';
 import { AnimeApiResponse } from '@/views/anime/services/anime-api.js';
 import { EpisodeDetailsResponse, EpisodesListResponse } from '@/views/anime/services/episode.js';
@@ -23,6 +23,7 @@ export async function fetchEpisodes(slug_url: string): Promise<EpisodesListRespo
 
 export async function fetchDetailEpisode(id: number): Promise<EpisodeDetailsResponse> {
   const { data } = await axios.get<EpisodeDetailsResponse>(`api/episodes/${id}`, {});
+  console.log('fetchDetailEpisode', data);
   return data;
 }
 

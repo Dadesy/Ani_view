@@ -8,7 +8,6 @@
       <list-item label="Возраст:" :value="ageLabel" />
       <list-item label="Тип:" :value="typeLabel" />
       <list-item label="Рейтинг:" :value="ratingText" />
-      <list-item label="Просмотров/день:" :value="viewsPerDay" />
       <list-item label="Статус:" :value="statusLabel" />
     </ul>
   </div>
@@ -23,7 +22,6 @@
     ageLabel: { type: String, required: true },
     typeLabel: { type: String, required: true },
     ratingText: { type: String, required: true },
-    viewsPerDay: { type: [String, Number], required: true },
     statusLabel: { type: String, required: true }
   });
 </script>

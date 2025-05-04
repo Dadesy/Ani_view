@@ -116,8 +116,7 @@
             { breakpoint: 480, settings: { slidesToShow: 2, slidesToScroll: 1 } }
           ]"
         >
-
-          <div v-for="relation in relations" :key="relation.id" class="px-2">
+          <div v-for="relation in relations" :key="relation.media.id" class="px-2">
             <div class="flex flex-col items-center gap-2 group">
               <img
                 :src="relation.media.cover.default"
@@ -135,12 +134,7 @@
       <div class="my-10">
         <a-typography-title>Вам может понравится</a-typography-title>
 
-        <a-carousel
-          :dots="false"
-          :autoplay="false"
-          :slides-to-show="10"
-          :slides-to-scroll="1"
-        >
+        <a-carousel :dots="false" :autoplay="false" :slides-to-show="10" :slides-to-scroll="1">
           <div v-for="similar in similars" :key="similar.id" class="px-2">
             <div class="flex flex-col items-center gap-2 group">
               <img
@@ -174,8 +168,7 @@
 
   import BaseLayout from '@/layout/BaseLayout.vue';
   import { RelatedMediaItem } from '@/views/anime/services/relations.js';
-  import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons-vue';
-  import { SimilarResponse } from '@/views/anime/services/similar.js';
+  import { SimilarItem } from '@/views/anime/services/similar.js';
 
   const route = useRoute();
   const slug = String(route.params.slug_url);
@@ -191,9 +184,9 @@
   const selectedPlayerId = ref<number | null>(null);
   const isLoadingDetail = ref(false);
 
-  const relations = ref<RelatedMediaItem | null>(null);
+  const relations = ref<RelatedMediaItem[] | null>(null);
 
-  const similars = ref<SimilarResponse | null>(null);
+  const similars = ref<SimilarItem[] | null>(null);
 
   const errorMessage = ref<string | null>(null);
 
@@ -212,7 +205,6 @@
   async function loadRelations() {
     try {
       const resp = await fetchRelations(slug);
-      console.log(resp.data);
       relations.value = resp.data;
     } catch {
       errorMessage.value = 'Не удалось загрузить список эпизодов.';
@@ -223,7 +215,7 @@
   async function loadSimilars() {
     try {
       const resp = await fetchSimilar(slug);
-      similars.value = resp.data; // 🔥 именно перезапись, не .push()
+      similars.value = resp.data;
     } catch {
       errorMessage.value = 'Не удалось загрузить список похожих аниме.';
     }
@@ -283,6 +275,7 @@
   );
 
   const currentSrc = computed(() => {
+    console.log('episodeDetail.value', episodeDetail.value);
     const pl = episodeDetail.value?.players.find((p) => p.id === selectedPlayerId.value);
     if (!pl) return '';
     return pl.src.startsWith('//') ? `https:${pl.src}` : pl.src;

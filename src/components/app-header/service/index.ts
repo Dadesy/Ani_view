@@ -1,4 +1,4 @@
-import axios from '@/utils/axios';
+import axios from '@/utils/axios.js';
 import { animeRequestOptions } from '@/views/anime/config.js';
 import { AnimeApiResponse } from '@/views/anime/services/anime-api.js';
 

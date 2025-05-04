@@ -1,7 +1,7 @@
-import axios from '@/utils/axios';
-import type { LastUpdatesResponse } from '@/views/welcome/services/lastest-updates.d';
-import type { TopViewsResponse } from '@/views/welcome/services/top-views.d';
-import type { AnimeListResponse } from '@/views/welcome/services/list.d';
+import axios from '@/utils/axios.js';
+import { LastUpdatesResponse } from '@/views/welcome/services/lastest-updates.js';
+import { TopViewsResponse } from '@/views/welcome/services/top-views.js';
+import { AnimeListResponse } from '@/views/welcome/services/list.js';
 
 export async function fetchList(): Promise<AnimeListResponse> {
   const { data } = await axios.get<AnimeListResponse>('/api');
